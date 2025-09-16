@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { userService } from './services/api';
 
 function App() {
@@ -6,6 +7,8 @@ function App() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+
+  const navigate = useNavigate(); // hook for navigation
 
   useEffect(() => {
     userService.getAll()
@@ -27,7 +30,7 @@ function App() {
   const checkUser = () => {
     const user = users.find(u => u.name === name && u.email === email && u.password === password);
     if (user) {
-      alert('Login successful!');
+      navigate('/message'); // navigate to Message component
     } else {
       alert('Invalid credentials.');
     }
@@ -56,6 +59,8 @@ function App() {
           <li key={u.id}>{u.name} - {u.email} - {u.password}</li>
         ))}
       </ul>
+
+
     </div>
   );
 }
