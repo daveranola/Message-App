@@ -11,6 +11,7 @@ const api = axios.create({
 
 export const userService = {
   getAll: () => api.get('/all'),           // GET /demo/all
+  getById: (id) => api.get(`/userID`, {params: { id } }), // GET /demo/userID
   create: (user) => api.post('/add', user) // POST /demo/add
 };
 

@@ -25,4 +25,9 @@ public class MainController {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
+
+    @GetMapping(path="/userID")
+    public User getUserByID(@RequestParam Integer id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }
