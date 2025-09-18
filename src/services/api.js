@@ -15,4 +15,10 @@ export const userService = {
   create: (user) => api.post('/add', user) // POST /demo/add
 };
 
+export const messageService = {
+  getAll: () => api.get('/allMessages'),           // GET /demo/messages
+  getById: (id) => api.get(`/messageID`, {params: { id } }), // GET /demo/messageID
+  create: (message) => api.post('/addMessage', message) // POST /demo/addMessage
+};
+
 export default api;

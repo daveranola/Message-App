@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userService } from './services/api';
 
-function App() {
+function App( { setLoggedinId} ) {
+  
+
   const [users, setUsers] = useState([]);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -30,6 +32,7 @@ function App() {
   const checkUser = () => {
     const user = users.find(u => u.name === name && u.email === email && u.password === password);
     if (user) {
+      setLoggedinId(user.id);
       navigate('/message'); // navigate to Message component
     } else {
       alert('Invalid credentials.');
