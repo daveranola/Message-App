@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { userService, messageService } from './services/api';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -11,12 +11,18 @@ function Message( {loggedinId} ) {
     const [receiverId, setReceiverId] = useState('');
     const [content, setContent] = useState('');
 
+    const navigate = useNavigate();
+
     useEffect(() => {
+        if (!loggedinId) {
+            navigate('/'); // redirect to home if not logged in
+            return;
+        }
         messageService.getAll()
         .then(res => setMessages(res.data))
         // res.data = json array which messageService.getAll() returns
         .catch(err => console.error(err));
-    }, []);
+    }, [loggedinId, navigate]);
 
 
     const getUserByID =() => {
@@ -43,17 +49,20 @@ function Message( {loggedinId} ) {
             <input value={userID} onChange={e => setUserID(e.target.value)} />
             <button onClick={getUserByID}>Get User by ID</button>
 
-            <h1>Add Message</h1>
-            <input placeholder="Receiver ID" value={receiverId} onChange={e => setReceiverId(e.target.value)} />
-            <input placeholder="Content" value={content} onChange={e => setContent(e.target.value)} />
-            <button onClick={addMessage}>Send Message</button>
-
-            <h1>Database</h1>
+            <h1>Users</h1>
             <ul>
                 {messages.map(u => (
                 <li key={u.messageId}>{u.senderId} - {u.receiverId} - {u.content} - {u.timeSent}</li>
                 ))}
             </ul>
+
+            <h1>Add Message</h1>
+            <input placeholder="Receiver ID" value={receiverId} onChange={e => setReceiverId(e.target.value)} />
+            <input placeholder="Content" value={content} onChange={e => setContent(e.target.value)} />
+            {/* this shit wont work if there is a null value in sender/reciever id */}
+            <button onClick={addMessage}>Send Message</button>
+
+            
 
         </div>
     );
