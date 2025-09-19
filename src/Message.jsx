@@ -1,11 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { userService, messageService } from './services/api';
 import { useState, useEffect } from 'react';
+import MessageForm from './components/MessageForm';
+import MessageSearch from './components/MessageSearch';
+import MessageList from './components/MessageList';
 
 function Message({ loggedinId }) {
     const [userID, setUserID] = useState(null);
-    const [receiverId, setReceiverId] = useState('');
-    const [content, setContent] = useState('');
 
     const [searchName, setSearchName] = useState('');
     const [foundMessages, setFoundMessages] = useState([]);
@@ -37,7 +38,7 @@ function Message({ loggedinId }) {
             .catch(err => console.error(err));
     };
 
-    const addMessage = () => {
+    const addMessage = ( receiverId, content ) => {
         if (!receiverId || !content) return alert("Receiver ID and content are required.");
 
         const newMessage = { senderId: loggedinId, receiverId, content };
@@ -46,8 +47,6 @@ function Message({ loggedinId }) {
             .then(res => {
                 setAllMessages(res.data);
                 setFoundMessages(res.data); // optional: update search results too
-                setReceiverId('');
-                setContent('');
             })
             .catch(err => console.error(err));
     };
@@ -82,30 +81,10 @@ function Message({ loggedinId }) {
                 <button onClick={getUserByID}>Get User</button>
             </div>
 
-            <div>
-                <h2>Add Message</h2>
-                <input placeholder="Receiver ID" value={receiverId} onChange={e => setReceiverId(e.target.value)} />
-                <input placeholder="Content" value={content} onChange={e => setContent(e.target.value)} />
-                <button onClick={addMessage}>Send Message</button>
-            </div>
-
-            <div>
-                <h2>Search Messages by User Name</h2>
-                <input placeholder="Enter user name" value={searchName} onChange={e => setSearchName(e.target.value)} />
-                <button onClick={searchMessagesByName}>Search</button>
-            </div>
-
-            <div>
-                <h2>Messages List</h2>
-                <ul>
-                    {foundMessages.map(m => (
-                        <li key={m.messageId}>
-                            <strong>{getUserNameById(m.senderId)}</strong> ➔ <strong>{getUserNameById(m.receiverId)}</strong>: {m.content} <small>({m.timeSent})</small>
-                        </li>
-                    ))}
-                </ul>   
-
-            </div>
+            <MessageForm addMessage={addMessage}/>
+            <MessageSearch  searchName={searchName} setSearchName={setSearchName} searchMessagesByName={searchMessagesByName} />
+            <MessageList messages={foundMessages} getUserNameById={getUserNameById} />
+           
         </div>
     );
 }
