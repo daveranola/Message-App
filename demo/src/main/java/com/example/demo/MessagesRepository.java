@@ -9,4 +9,4 @@ import com.example.demo.MessagesRepository;
 
 public interface MessagesRepository extends JpaRepository<Messages, Integer> {
 
-}   
+}
