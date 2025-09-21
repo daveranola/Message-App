@@ -1,13 +1,21 @@
-function UserList( { users } ) {
+// UserList.jsx
+function UserList({ users }) {
   return (
-    <div>
-      {/* displays users in data base (mySQL) */}
-      <h1>Database</h1>
-      <ul>
-        {users.map(u => (
-          <li key={u.id}>{u.name} - {u.email} - {u.password}</li>
-        ))}
-      </ul>
+    <div className="user-list-card">
+      <h3 className="user-list-title">Registered Users</h3>
+      <div className="user-list-content">
+        {users.length > 0 ? (
+          <ul className="user-list">
+            {users.map((u) => (
+              <li key={u.id} className="user-list-item">
+                <span className="user-name">{u.name}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="no-users-message">No users found</p>
+        )}
+      </div>
     </div>
   );
 }

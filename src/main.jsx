@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import App from "./App";
 import Message from "./Message";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Main() {
   const [loggedinId, setLoggedinId] = useState(null); // store logged-in user here

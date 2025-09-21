@@ -1,48 +1,52 @@
-import React, { useState } from 'react';
+// SignUpForm.jsx
+import React, { useState } from "react";
 
-function SignUpForm( { addUser } ) {
+function SignUpForm({ addUser }) {
   const [signUpName, setSignUpName] = useState('');
   const [signUpPassword, setSignUpPassword] = useState('');
   const [signUpEmail, setSignUpEmail] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // stop browser reload wgen form is submitted
+    e.preventDefault();
     addUser(signUpName, signUpEmail, signUpPassword);
   };
 
   return (
-      <form onSubmit={handleSubmit}>
-        <h1>Sign Up</h1>
-        
+    <form onSubmit={handleSubmit}>
+      <div className="mb-3">
         <input 
-          placeholder="Name" 
-          value={signUpName} 
-          onChange={(e) => setSignUpName(e.target.value)} 
+          className="form-control"
+          placeholder="Name"
+          value={signUpName}
+          onChange={(e) => setSignUpName(e.target.value)}
           required
-          maxLength={20} //name cannot exceed 20 characters
+          maxLength={20}
         />
-
+      </div>
+      <div className="mb-3">
         <input
           type="email"
+          className="form-control"
           placeholder="Email"
           value={signUpEmail}
           onChange={(e) => setSignUpEmail(e.target.value)}
           required
           pattern=".+@gmail\.com"
         />
-
+      </div>
+      <div className="mb-3">
         <input 
-          type="password" 
-          placeholder="Password" 
-          value={signUpPassword} 
-          onChange={(e) => setSignUpPassword(e.target.value)} 
+          type="password"
+          className="form-control"
+          placeholder="Password"
+          value={signUpPassword}
+          onChange={(e) => setSignUpPassword(e.target.value)}
           required
-          minLength={6} //must be at least 6 characters long
+          minLength={6}
         />
-
-        <button type="submit">Sign Up</button>
+      </div>
+      <button type="submit" className="btn btn-success w-100">Sign Up</button>
     </form>
-
   );
 }
 
