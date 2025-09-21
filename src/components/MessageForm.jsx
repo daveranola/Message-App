@@ -4,22 +4,32 @@ function MessageForm({ addMessage }) {
     const [receiverId, setReceiverId] = useState('');
     const [content, setContent] = useState('');
 
-    
-    const handleSend = () => {
-        addMessage(receiverId, content);
-        setReceiverId('');
-        setContent('');
+    const handleSend = (e) => {
+        e.preventDefault();
+        if (content.trim()) {
+            addMessage(receiverId, content);
+            setContent('');
+        }
     };
 
     return (
-        <div>
-            <div>
-                <h2>Add Message</h2>
-                <input placeholder="Receiver ID" value={receiverId} onChange={e => setReceiverId(e.target.value)} />
-                <input placeholder="Content" value={content} onChange={e => setContent(e.target.value)} />
-                <button onClick={handleSend}>Send Message</button>
+        <form className="message-form" onSubmit={handleSend}>
+            <input 
+                placeholder="Receiver ID (optional for group chats)" 
+                value={receiverId} 
+                onChange={e => setReceiverId(e.target.value)}
+                className="receiver-input"
+            />
+            <div className="message-input-wrapper">
+                <input 
+                    placeholder="Type your message here..." 
+                    value={content} 
+                    onChange={e => setContent(e.target.value)}
+                    className="message-input"
+                />
+                <button type="submit" className="send-button">Send</button>
             </div>
-        </div>
+        </form>
     );
 }
 

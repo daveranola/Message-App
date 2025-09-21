@@ -1,19 +1,30 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { userService, messageService } from './services/api';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import MessageForm from './components/MessageForm';
 import MessageSearch from './components/MessageSearch';
 import MessageList from './components/MessageList';
+import UserList from './components/UserList';
+import './Message.css'; 
 
 function Message({ loggedinId }) {
     const [userID, setUserID] = useState(null);
-
     const [searchName, setSearchName] = useState('');
     const [foundMessages, setFoundMessages] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [allMessages, setAllMessages] = useState([]);
+    const messagesEndRef = useRef(null);
 
     const navigate = useNavigate();
+
+    // Auto-scroll to bottom when messages update
+    useEffect(() => {
+        scrollToBottom();
+    }, [allMessages, foundMessages]);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     useEffect(() => {
         if (!loggedinId) {
@@ -23,7 +34,10 @@ function Message({ loggedinId }) {
 
         // Fetch all messages
         messageService.getAll()
-            .then(res => setAllMessages(res.data))
+            .then(res => {
+                setAllMessages(res.data);
+                setFoundMessages(res.data); // Initialize with all messages
+            })
             .catch(err => console.error(err));
 
         // Fetch all users
@@ -46,7 +60,7 @@ function Message({ loggedinId }) {
             .then(() => messageService.getAll()) // refresh messages
             .then(res => {
                 setAllMessages(res.data);
-                setFoundMessages(res.data); // optional: update search results too
+                setFoundMessages(res.data); 
             })
             .catch(err => console.error(err));
     };
@@ -71,20 +85,40 @@ function Message({ loggedinId }) {
     };
 
     return (
-        <div>
-            <h1>Messages</h1>
-            <Link to="/">Home</Link>
+        <div className="messages-container">
+            <header className="messages-header">
+                <h1>Messages</h1>
+                <Link to="/" className="home-link">Home</Link>
+            </header>
 
-            <div>
-                <h2>Get User by ID</h2>
-                <input value={userID || ''} onChange={e => setUserID(e.target.value)} placeholder="User ID" />
-                <button onClick={getUserByID}>Get User</button>
+            <div className="messages-content">
+                <div className="messages-main">
+                    <div className="messages-search">
+                        <MessageSearch 
+                            searchName={searchName} 
+                            setSearchName={setSearchName} 
+                            searchMessagesByName={searchMessagesByName} 
+                        />
+                    </div>
+                    
+                    <div className="messages-list-container">
+                        <MessageList 
+                            messages={foundMessages} 
+                            getUserNameById={getUserNameById} 
+                            currentUserId={loggedinId}
+                        />
+                        <div ref={messagesEndRef} />
+                    </div>
+                    
+                    <div className="message-input-container">
+                        <MessageForm addMessage={addMessage} />
+                    </div>
+                </div>
+                
+                <aside className="users-sidebar">
+                    <UserList users={allUsers} />
+                </aside>
             </div>
-
-            <MessageForm addMessage={addMessage}/>
-            <MessageSearch  searchName={searchName} setSearchName={setSearchName} searchMessagesByName={searchMessagesByName} />
-            <MessageList messages={foundMessages} getUserNameById={getUserNameById} />
-           
         </div>
     );
 }

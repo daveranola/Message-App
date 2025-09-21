@@ -1,13 +1,38 @@
 function MessageSearch({ searchName, setSearchName, searchMessagesByName }) {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        searchMessagesByName();
+    };
+
+    const clearSearch = () => {
+        setSearchName('');
+        searchMessagesByName();
+    };
+
     return (
-        <div>
-            <h2>Search Messages by User Name</h2>
-            <input
-                placeholder="Enter user name"
-                value={searchName}
-                onChange={e => setSearchName(e.target.value)}
-            />
-            <button onClick={searchMessagesByName}>Search</button>
+        <div className="messages-search">
+            <form onSubmit={handleSubmit} className="search-container">
+                <input
+                    className="search-input"
+                    placeholder="Search messages by username..."
+                    value={searchName}
+                    onChange={e => setSearchName(e.target.value)}
+                    type="text"
+                />
+                {searchName && (
+                    <button 
+                        type="button" 
+                        className="search-clear"
+                        onClick={clearSearch}
+                        aria-label="Clear search"
+                    >
+                        ✕
+                    </button>
+                )}
+                <button type="submit" className="search-button">
+                    Search
+                </button>
+            </form>
         </div>
     );
 }
