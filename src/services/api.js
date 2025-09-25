@@ -1,7 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
 
-const API_BASE_URL = '/demo';      // relative to current origin
+const API_BASE_URL = `${window.location.origin}/demo`;     // relative to current origin
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
