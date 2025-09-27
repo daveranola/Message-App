@@ -21,8 +21,6 @@ public class MainController {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyUsedException("Email already in use: " + user.getEmail());
         }
-
-
         userRepository.save(user);
         return "User added successfully";
     }

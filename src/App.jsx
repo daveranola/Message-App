@@ -17,12 +17,18 @@ function App({ setLoggedinId }) {
       .catch(err => console.error(err));
   }, []);
 
-  const addUser = (name, email, password) => {
-    userService.create({ name, email, password })
-      .then(() => userService.getAll())
-      .then(res => setUsers(res.data))
-      .catch(err => console.error(err));
-  };
+const addUser = (name, email, password) => {
+  return userService.create({ name, email, password })
+    .then(() => userService.getAll())
+    .then(res => setUsers(res.data))
+    .catch(err => {
+      if (err.response && err.response.status === 409) {
+        // Pass the backend error message up to the form
+        throw new Error(err.response.data.message || "Email already in use");
+      }
+      throw err; // rethrow for unexpected errors
+    });
+};
 
   const checkUser = (name, email, password) => {
     const user = users.find(u => u.name === name && u.email === email && u.password === password);
