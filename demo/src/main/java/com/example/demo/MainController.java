@@ -18,6 +18,10 @@ public class MainController {
     public String addNewUser (@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new EmailAlreadyUsedException("Email already in use: " + user.getEmail());
+        }
+
 
         userRepository.save(user);
         return "User added successfully";
