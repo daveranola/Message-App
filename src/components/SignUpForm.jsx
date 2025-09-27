@@ -5,12 +5,19 @@ function SignUpForm({ addUser }) {
   const [signUpPassword, setSignUpPassword] = useState('');
   const [signUpEmail, setSignUpEmail] = useState('');
   const [error, setError] = useState('');  // NEW: track error message
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(""); // clear previous error
 
     addUser(signUpName, signUpEmail, signUpPassword)
+      .then(() => {
+        setSuccess("Account created successfully!");
+        setSignUpName('');
+        setSignUpEmail('');
+        setSignUpPassword('');
+      })
       .catch(err => {
         setError(err.message); // show backend or thrown error
       });
@@ -55,6 +62,8 @@ function SignUpForm({ addUser }) {
 
       {/* Error message shown here */}
       {error && <div className="text-danger mb-2">{error}</div>}
+      
+      {success && <div className="text-success mb-2">{success}</div>}
 
       <button type="submit" className="btn btn-success w-100">Sign Up</button>
     </form>
