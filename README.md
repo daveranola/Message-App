@@ -44,19 +44,19 @@ A messaging app, which was made with React, Springboot and mySQL
 
 ## Project Structure
 /demo
-├── src/main/java/... → Spring Boot backend code
-├── src/main/resources
-│ ├── static/ → React build output (after running npm run build)
-│ └── application.properties
-| └── application-prod.properties
-| └── application-dev.properties
-└── pom.xml → Maven config
+├── src/main/java/... → Spring Boot backend code <br>
+├── src/main/resources <br>
+│ ├── static/ → React build output (after running npm run build)<br>
+│ └── application.properties<br>
+| └── application-prod.properties<br>
+| └── application-dev.properties<br>
+└── pom.xml → Maven config<br>
 
 /frontend
-├── src/ → React components and logic (development code)
-├── public/ → Static assets
-├── package.json → Frontend dependencies
-└── vite.config.js → Vite config
+├── src/ → React components and logic (development code)<br>
+├── public/ → Static assets<br>
+├── package.json → Frontend dependencies<br>
+└── vite.config.js → Vite config<br>
 
 
 During development, you run React separately with npm run dev (on Vite).
