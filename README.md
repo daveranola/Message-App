@@ -43,7 +43,7 @@ A messaging app, which was made with React, Springboot and mySQL
 ---
 
 ## Project Structure
-/demo
+/demo <br>
 ├── src/main/java/... → Spring Boot backend code <br>
 ├── src/main/resources <br>
 │ ├── static/ → React build output (after running npm run build)<br>
@@ -52,7 +52,7 @@ A messaging app, which was made with React, Springboot and mySQL
 | └── application-dev.properties<br>
 └── pom.xml → Maven config<br>
 
-/frontend
+/frontend <br>
 ├── src/ → React components and logic (development code)<br>
 ├── public/ → Static assets<br>
 ├── package.json → Frontend dependencies<br>
