@@ -313,6 +313,10 @@
 .user-list-item {
     padding: 10px 0;
     border-bottom: 1px solid #36393f;
+
+    display: flex;
+    justify-content: space-between; /* pushes name left, id right */
+    align-items: center; 
 }
 
 .user-list-item:last-child {

@@ -8,7 +8,6 @@ import UserList from './components/UserList';
 import './Message.css'; 
 
 function Message({ loggedinId }) {
-    const [userID, setUserID] = useState(null);
     const [searchName, setSearchName] = useState('');
     const [foundMessages, setFoundMessages] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
@@ -94,10 +93,10 @@ function Message({ loggedinId }) {
         }
     }, [searchName, allMessages, allUsers]);
 
-    const addMessage = (receiverId, content) => {
-        if (!receiverId || !content) return alert("Receiver ID and content are required.");
+    const addMessage = (content) => {
+        if (!content) return alert("Content is required.");
 
-        const newMessage = { senderId: loggedinId, receiverId, content };
+        const newMessage = { senderId: loggedinId, content };
         messageService.create(newMessage)
             .then(() => {
                 // Fetch messages immediately after sending

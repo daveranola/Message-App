@@ -9,6 +9,7 @@ import "./App.css";
 function App({ setLoggedinId }) {
   const [users, setUsers] = useState([]);
   const [showLogin, setShowLogin] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +21,11 @@ function App({ setLoggedinId }) {
 const addUser = (name, email, password) => {
   return userService.create({ name, email, password })
     .then(() => userService.getAll())
-    .then(res => setUsers(res.data))
+    .then(res => {
+      setUsers(res.data)
+      setSuccessMessage("Account created successfully! Please log in.");
+      setShowLogin(true); // Switch to login on successful sign-up
+    })
     .catch(err => {
       if (err.response && err.response.status === 409) {
         // Pass the backend error message up to the form
@@ -57,7 +62,7 @@ const addUser = (name, email, password) => {
 
           <div className={`form-wrapper ${showLogin ? "show-login" : "show-signup"}`}>
             {showLogin ? (
-              <LoginForm checkUser={checkUser} />
+              <LoginForm checkUser={checkUser} successMessage={successMessage} />
             ) : (
               <SignUpForm addUser={addUser} />
             )}

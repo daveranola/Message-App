@@ -9,6 +9,7 @@ function UserList({ users }) {
             {users.map((u) => (
               <li key={u.id} className="user-list-item">
                 <span className="user-name">{u.name}</span>
+                <span className="user-id">#{u.id}</span>
               </li>
             ))}
           </ul>
