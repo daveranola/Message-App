@@ -1,4 +1,4 @@
-# Project Title
+# Messaging app
 A messaging app, which was made with React, Springboot and mySQL
 
 ---
